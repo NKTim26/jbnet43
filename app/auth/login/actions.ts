@@ -11,12 +11,14 @@ export async function loginAction(email: string, password: string) {
   if (error) return { error: 'Email ou mot de passe incorrect' }
 
   const serviceSupabase = createServiceClient()
-  const { data: profile } = await serviceSupabase
+  const { data: profile, error: profileError } = await serviceSupabase
     .from('profiles')
-    .select('role')
+    .select('role, is_admin')
     .eq('id', data.user.id)
     .single()
 
-  if (profile?.role === 'admin') redirect('/admin')
+  console.log('[loginAction] profile:', profile, 'error:', profileError)
+
+  if (profile?.role === 'admin' || profile?.is_admin === true) redirect('/admin')
   else redirect('/dashboard')
 }
