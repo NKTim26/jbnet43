@@ -1,16 +1,20 @@
-import { updateSession } from '@/lib/supabase/middleware'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
-  try {
-    return await updateSession(request)
-  } catch {
-    return NextResponse.next()
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  const isAuthenticated = request.cookies.getAll().some(
+    (cookie) => cookie.name.startsWith('sb-') && cookie.name.endsWith('-auth-token')
+  )
+
+  if ((pathname.startsWith('/dashboard') || pathname.startsWith('/admin')) && !isAuthenticated) {
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
+
+  return NextResponse.next()
 }
 
 export const config = {
-  runtime: 'nodejs',
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
