@@ -31,9 +31,9 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a href="tel:+33600000000" className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+          <a href="tel:+33788429319" className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <Phone className="h-4 w-4" />
-            <span>06 00 00 00 00</span>
+            <span>07 88 42 93 19</span>
           </a>
           <Link href="/auth/login">
             <Button variant="outline" size="sm">
