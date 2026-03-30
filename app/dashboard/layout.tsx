@@ -17,12 +17,11 @@ export default async function DashboardLayout({
   // Check admin status from profiles table
   const { data: profile } = await supabase
     .from("profiles")
-    .select("is_admin")
+    .select("role")
     .eq("id", user.id)
     .single()
 
-  // Redirect admin users to admin dashboard
-  if (profile?.is_admin) {
+  if (profile?.role === 'admin') {
     redirect("/admin")
   }
 
